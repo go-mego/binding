@@ -17,7 +17,7 @@ $ go get github.com/go-mego/binding
 
 # 使用方式
 
-將 `binding.New` 用於指定的路由中，並且帶上欲映射的建構體就可以在路由的處理函式中使用映射的資料。如果欲映射的資料沒有通過驗證或是格式不正確，則會直接回傳 HTTP 400 錯誤。
+將 `binding.New` 用於指定的路由中，並且帶上欲映射的建構體就可以在路由的處理函式中使用映射的資料。如果欲映射的資料沒有通過驗證或是格式不正確，則會直接回傳 `HTTP 400` 錯誤。
 
 ```go
 package main
@@ -34,9 +34,9 @@ type User struct {
 
 func main() {
 	m := mego.New()
-    // 將綁定中介軟體與欲映射的建構體傳入路由，便可在路由中使用。
-    // 如果資料不正確或未通過驗證則會直接回傳 HTTP 錯誤。
-	m.Post("/", binding.New(User{}), func(u *User) string {
+	// 將綁定中介軟體與欲映射的建構體傳入路由，便可在路由中使用。
+	// 如果資料不正確或未通過驗證則會直接回傳 HTTP 錯誤。
+	m.POST("/", binding.New(User{}), func(u *User) string {
 		return "已接收到資料，Username：" + u.Username
 	})
 	m.Run()
