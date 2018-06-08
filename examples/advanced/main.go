@@ -9,7 +9,7 @@ import (
 
 type User struct {
 	Username string
-	Password string `binding:"required"`
+	Password string
 }
 
 type Query struct {
@@ -20,8 +20,7 @@ type Query struct {
 func main() {
 	e := mego.Default()
 	e.POST("/", binding.NewQuery(Query{}), binding.New(User{}), func(c *mego.Context, q *Query, u *User) {
-
-		c.String(http.StatusOK, "Query: %+v\nUser:%+v", q, u)
+		c.String(http.StatusOK, "Query: %+v\nUser: %+v", q, u)
 	})
 	e.Run()
 }

@@ -116,14 +116,8 @@ func NewForm(dest interface{}) mego.HandlerFunc {
 		}
 		ptr, err := Bind(dest, c.Request.Form, fieldTagForm)
 		if err != nil {
-			switch e := err.(type) {
-			case RequiredErr:
-				c.Error(e)
-			default:
-				c.Error(e)
-			}
-			//c.AbortWithError(http.StatusBadRequest, err)
-			//return
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
 		}
 		c.Map(ptr)
 	}
@@ -137,7 +131,7 @@ func Bind(ptr interface{}, data map[string][]string, tag string) (interface{}, e
 	ptr = reflect.New(reflect.TypeOf(ptr)).Interface()
 	// 反射資料至該複製建構體的指針，之後若無錯誤則回傳。
 	if err := BindToPtr(ptr, data, tag); err != nil {
-		return ptr, err
+		return nil, err
 	}
 	return ptr, nil
 }
@@ -152,7 +146,7 @@ func BindToPtr(ptr interface{}, data map[string][]string, tag string) error {
 	if typ.Kind() != reflect.Struct {
 		return ErrNotStruct
 	}
-	var err error
+
 	for i := 0; i < typ.NumField(); i++ {
 		typeField := typ.Field(i)
 		structField := val.Field(i)
@@ -206,20 +200,18 @@ func BindToPtr(ptr interface{}, data map[string][]string, tag string) error {
 		if structField.CanInterface() {
 			if bindingFieldName == "required" {
 				if isZeroOfUnderlyingType(structField.Interface()) {
-					err = RequiredErr{Field: inputFieldName}
+					return &mego.Error{
+						Err: ErrRequired,
+						Meta: mego.H{
+							"field": inputFieldName,
+						},
+						Type: mego.ErrorTypePrivate,
+					}
 				}
 			}
 		}
 	}
-	return err
-}
-
-type RequiredErr struct {
-	Field string
-}
-
-func (r RequiredErr) Error() string {
-	return ErrRequired.Error()
+	return nil
 }
 
 // convertKeys 能夠移除表單欄位名稱中的分隔符號，並且全部改為小寫來讓映射時能夠完好地對應本地建構體欄位。
