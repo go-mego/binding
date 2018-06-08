@@ -7,6 +7,7 @@
 * [安裝方式](#安裝方式)
 * [使用方式](#使用方式)
 
+
 # 安裝方式
 
 打開終端機並且透過 `go get` 安裝此套件即可。
@@ -29,14 +30,14 @@ import (
 
 // 事先定義一個資料建構體供稍後映射。
 type User struct {
-	Username string `form:"username" binding:"Required"`
+	Username string `form:"username" binding:"required"`
 }
 
 func main() {
 	m := mego.New()
 	// 將綁定中介軟體與欲映射的建構體傳入路由，便可在路由中使用。
 	// 如果資料不正確或未通過驗證則會直接回傳 HTTP 錯誤。
-	m.POST("/", binding.New(User{}), func(u *User) string {
+	m.POST("/", binding.New(User{}), func(u User) string {
 		return "已接收到資料，Username：" + u.Username
 	})
 	m.Run()
