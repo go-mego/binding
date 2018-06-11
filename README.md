@@ -1,4 +1,4 @@
-# Binding [![GoDoc](https://godoc.org/github.com/go-mego/binding?status.svg)](https://godoc.org/github.com/go-mego/binding)
+# Binding [![GoDoc](https://godoc.org/github.com/go-mego/binding?status.svg)](https://godoc.org/github.com/go-mego/binding) [![Coverage Status](https://coveralls.io/repos/github/go-mego/binding/badge.svg?branch=master)](https://coveralls.io/github/go-mego/binding?branch=master) [![Build Status](https://travis-ci.org/go-mego/binding.svg?branch=master)](https://travis-ci.org/go-mego/binding) [![Go Report Card](https://goreportcard.com/badge/github.com/go-mego/binding)](https://goreportcard.com/report/github.com/go-mego/binding)
 
 套件 Binding 能夠將接收到的資料映射到本地的某個建構體，並且自動驗證且傳入路由中供使用。
 
