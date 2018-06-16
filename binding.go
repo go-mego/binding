@@ -14,11 +14,11 @@ import (
 
 var (
 	// ErrNotStruct 是個會在映射目標不是建構體時發生的錯誤。
-	ErrNotStruct = errors.New("mego: binding element must be a struct")
+	ErrNotStruct = errors.New("binding: binding element must be a struct")
 	// ErrRequired 表示必填的值卻是零值。
-	ErrRequired = errors.New("mego: required field with zero value")
+	ErrRequired = errors.New("binding: required field with zero value")
 	// ErrUnsupportedMediaType 表示欲映射的資料型態並不受支援而發生錯誤。
-	ErrUnsupportedMediaType = errors.New("mego: binding an unsupported content type form")
+	ErrUnsupportedMediaType = errors.New("binding: binding an unsupported content type form")
 )
 
 const (
